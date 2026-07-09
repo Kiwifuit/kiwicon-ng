@@ -18,7 +18,15 @@ Command *process_stdin()
   if (!cmd)
   {
     perror("new_command");
+    free(cmdline);
     return NULL;
+  }
+
+  int retcode = parse_token(cmd);
+  if (retcode != ERR_CMDLINE_OK)
+  {
+    printf("parse_token: error %x", retcode);
+    free_command(cmd);
   }
 
   return cmd;
@@ -28,7 +36,8 @@ int main()
 {
   printf("Hello world!\n");
   Command *cmd = process_stdin();
-  printf("Command: %s", commandline(cmd));
+  printf("Command: %s\n", commandline(cmd));
+  debug_command(cmd);
 
   free_command(cmd);
   return 0;

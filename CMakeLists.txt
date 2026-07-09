@@ -7,4 +7,6 @@ add_executable(kiwicon
   src/line.c
   src/line.h
   src/command.c
-  src/command.h)
+  src/command.h
+  src/buffer.c
+  src/buffer.h)
