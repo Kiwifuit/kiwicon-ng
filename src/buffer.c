@@ -41,9 +41,8 @@ void vec_free(Vec *vec)
 
 void vec_resize(Vec *vec)
 {
-  size_t new_capacity = vec->capacity * 2;
-  vec->items = realloc(vec->items, new_capacity);
   vec->capacity *= 2;
+  vec->items = realloc(vec->items, sizeof(*vec->items) * vec->capacity);
 }
 
 void vec_add(Vec *vec, void *item)
@@ -53,7 +52,10 @@ void vec_add(Vec *vec, void *item)
     vec_resize(vec);
   }
   if (item)
-    vec->items[vec->length++] = item;
+  {
+    vec->items[vec->length] = item;
+    vec->length++;
+  }
 }
 
 void *vec_data(Vec *vec)
