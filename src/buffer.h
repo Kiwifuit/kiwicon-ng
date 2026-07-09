@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifndef KIWICON_VECTOR_DEFAULT_CAPACITY
 #define KIWICON_VECTOR_DEFAULT_CAPACITY 8
