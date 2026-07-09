@@ -22,5 +22,7 @@ char *get_command(char *prompt)
 
 void strip_newline(char *input)
 {
-  input[strlen(input) - 1] = 0;
+  size_t newline_loc = strlen(input) - 1;
+  if (input[newline_loc] == '\n')
+    input[newline_loc] = 0;
 }
