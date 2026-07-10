@@ -1,9 +1,17 @@
 #pragma once
 
+#include <stddef.h>
+
 #define ERR_CMDLINE_OK 0
 #define ERR_CMDLINE_NO_BUFFER 1
 
 typedef struct command_s Command;
+
+typedef struct
+{
+  size_t argc;
+  char **argv;
+} Arguments;
 
 /*
 Constructs a new command object, owning the
@@ -23,6 +31,17 @@ Returns the commandline passed inside of
 `cmd`
 */
 char *commandline(Command *cmd);
+
+/*
+Returns argument data about cmd and
+puts it into args
+*/
+void cmd_args(Command *cmd, Arguments *args);
+
+/*
+Returns the command to execute
+*/
+char *cmd_command(Command *cmd);
 
 void debug_command(Command *cmd);
 

@@ -9,7 +9,9 @@ add_executable(kiwicon
   src/command.c
   src/command.h
   src/buffer.c
-  src/buffer.h)
+  src/buffer.h
+  src/builtins.c
+  src/builtins.h)
 
 install(TARGETS kiwicon RUNTIME DESTINATION bin)
 

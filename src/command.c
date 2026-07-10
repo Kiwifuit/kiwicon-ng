@@ -73,6 +73,23 @@ char *commandline(Command *cmd)
   return cmd->buffer;
 }
 
+char *cmd_command(Command *cmd)
+{
+  return cmd->cmd;
+}
+
+void cmd_args(Command *cmd, Arguments *args)
+{
+  if (!args)
+  {
+    return;
+  }
+
+  *args = (Arguments){
+      .argv = vec_data(cmd->argv),
+      .argc = vec_len(cmd->argv)};
+}
+
 int parse_token(Command *cmd)
 {
   if (!cmd || !cmd->buffer)
