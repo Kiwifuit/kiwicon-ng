@@ -14,7 +14,7 @@ struct command_s
   Vec *argv;
 };
 
-Command *new_command(char *commandline)
+Command *command_new(char *commandline)
 {
   if (!commandline)
   {
@@ -29,7 +29,7 @@ Command *new_command(char *commandline)
   Vec *argv = vec_new(sizeof(char *));
   if (!argv)
   {
-    free_command(cmd);
+    command_free(cmd);
     return NULL;
   }
 
@@ -42,7 +42,7 @@ Command *new_command(char *commandline)
   return cmd;
 }
 
-void debug_command(Command *cmd)
+void command_debug(Command *cmd)
 {
   printf("===== COMMANDLINE DATA =====\n");
   if (cmd->buffer)
@@ -61,24 +61,24 @@ void debug_command(Command *cmd)
   printf("===== COMMANDLINE DATA =====\n");
 }
 
-void free_command(Command *cmd)
+void command_free(Command *cmd)
 {
   free(cmd->buffer);
   free(cmd);
   cmd = NULL;
 }
 
-char *commandline(Command *cmd)
+char *command_cmdline(Command *cmd)
 {
   return cmd->buffer;
 }
 
-char *cmd_command(Command *cmd)
+char *command_cmd(Command *cmd)
 {
   return cmd->cmd;
 }
 
-void cmd_args(Command *cmd, Arguments *args)
+void command_args(Command *cmd, Arguments *args)
 {
   if (!args)
   {
@@ -90,7 +90,7 @@ void cmd_args(Command *cmd, Arguments *args)
       .argc = vec_len(cmd->argv)};
 }
 
-int parse_token(Command *cmd)
+int command_tokenize(Command *cmd)
 {
   if (!cmd || !cmd->buffer)
   {

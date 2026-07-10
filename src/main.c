@@ -15,19 +15,19 @@ Command *process_stdin()
   }
   strip_newline(cmdline);
 
-  Command *cmd = new_command(cmdline);
+  Command *cmd = command_new(cmdline);
   if (!cmd)
   {
-    perror("new_command");
+    perror("command_new");
     free(cmdline);
     return NULL;
   }
 
-  int retcode = parse_token(cmd);
+  int retcode = command_tokenize(cmd);
   if (retcode != ERR_CMDLINE_OK)
   {
-    printf("parse_token: error %x", retcode);
-    free_command(cmd);
+    printf("command_tokenize: error %x", retcode);
+    command_free(cmd);
   }
 
   return cmd;
@@ -36,9 +36,9 @@ Command *process_stdin()
 int process_command(Command *cmd, CallbackManager *cbm)
 {
   Arguments args;
-  cmd_args(cmd, &args);
+  command_args(cmd, &args);
 
-  int retcode = callback_run(cbm, cmd_command(cmd), args.argv, args.argc);
+  int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
   printf("$? = %d\n", retcode);
 }
 
@@ -61,11 +61,10 @@ int main()
     perror("callback_add");
 
   Command *cmd = process_stdin();
-  printf("Command: %s\n", commandline(cmd));
-  debug_command(cmd);
+  command_debug(cmd);
   process_command(cmd, cbm);
 
-  free_command(cmd);
+  command_free(cmd);
   callback_manager_free(cbm);
   return 0;
 }

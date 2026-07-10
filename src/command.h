@@ -19,30 +19,38 @@ commandline buffer. Returns NULL when
 `commandline` is NULL, or when malloc(3)
 fails to allocate memory for the commandline
 */
-Command *new_command(char *commandline);
+Command *command_new(char *commandline);
 
 /*
 Frees the resources inside a command
 */
-void free_command(Command *cmd);
+void command_free(Command *cmd);
 
 /*
 Returns the commandline passed inside of
 `cmd`
 */
-char *commandline(Command *cmd);
+char *command_cmdline(Command *cmd);
 
 /*
 Returns argument data about cmd and
 puts it into args
 */
-void cmd_args(Command *cmd, Arguments *args);
+void command_args(Command *cmd, Arguments *args);
 
 /*
 Returns the command to execute
 */
-char *cmd_command(Command *cmd);
+char *command_cmd(Command *cmd);
 
-void debug_command(Command *cmd);
+/*
+Displays debug information about
+cmd to the terminal
+*/
+void command_debug(Command *cmd);
 
-int parse_token(Command *cmd);
+/*
+Tokenizes the buffer inside of
+`cmd`
+*/
+int command_tokenize(Command *cmd);
