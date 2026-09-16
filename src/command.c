@@ -7,14 +7,28 @@
 #include <string.h>
 #include <stdint.h>
 
+enum command_state_e
+{
+  STATE_NONE,
+  STATE_QUOTING,
+};
+
+struct command_flags_s
+{
+  enum command_state_e current_state;
+  char *token_start;
+};
 struct command_s
 {
   char *buffer;
   char *cmd;
   Vec *argv;
+
+  struct command_flags_s state;
 };
 
-Command *command_new(char *commandline)
+Command *
+command_new(char *commandline)
 {
   if (!commandline)
   {
@@ -37,6 +51,10 @@ Command *command_new(char *commandline)
       .buffer = commandline,
       .cmd = NULL,
       .argv = argv,
+      .state = {
+          .current_state = STATE_NONE,
+          .token_start = NULL,
+      },
   };
 
   return cmd;
@@ -103,7 +121,37 @@ int command_tokenize(Command *cmd)
   do
   {
     current_token = strtok(NULL, " ");
-    vec_add(cmd->argv, current_token);
+    if (!current_token)
+    {
+      break;
+    }
+
+    size_t ct_len = strlen(current_token);
+
+    if (current_token[0] == '"' && cmd->state.current_state == STATE_NONE)
+    {
+      cmd->state.current_state = STATE_QUOTING;
+      cmd->state.token_start = current_token;
+      current_token[ct_len] = ' ';
+    }
+    else if (current_token[ct_len - 1] == '"' && (cmd->state.current_state == STATE_QUOTING))
+    {
+      cmd->state.current_state = STATE_NONE;
+    }
+    else if (cmd->state.current_state == STATE_QUOTING)
+    {
+      current_token[ct_len] = ' ';
+    }
+
+    if (cmd->state.current_state != STATE_QUOTING)
+    {
+      if (cmd->state.token_start)
+        vec_add(cmd->argv, cmd->state.token_start);
+      else
+        vec_add(cmd->argv, current_token);
+
+      cmd->state.token_start = NULL;
+    }
   } while (current_token != NULL);
 
   return ERR_CMDLINE_OK;
