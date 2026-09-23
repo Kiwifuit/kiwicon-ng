@@ -4,6 +4,7 @@
 #include "line.h"
 #include "command.h"
 #include "builtins.h"
+#include "search.h"
 
 Command *process_stdin()
 {
@@ -53,18 +54,30 @@ int builtin_echo(char **argc, size_t argv)
 
 int main()
 {
-  printf("Hello world!\n");
+  Path *path = malloc(sizeof(Path));
+  if (!path)
+  {
+    perror("load_path");
+    return -100;
+  }
 
-  CallbackManager *cbm = callback_manager_new();
+  load_path_variable(path);
+  printf("Hello world!\nPATH: %s\n", path);
 
-  if (callback_add(cbm, "echo", NULL, builtin_echo))
-    perror("callback_add");
+  find_program("gcc", path);
+  // CallbackManager *cbm = callback_manager_new();
 
-  Command *cmd = process_stdin();
-  command_debug(cmd);
-  process_command(cmd, cbm);
+  // if (callback_add(cbm, "echo", NULL, builtin_echo))
+  //   perror("callback_add");
 
-  command_free(cmd);
-  callback_manager_free(cbm);
+  // Command *cmd = process_stdin();
+  // command_debug(cmd);
+  // process_command(cmd, cbm);
+
+  // command_free(cmd);
+  // callback_manager_free(cbm);
+
+  free(path->pathbuf);
+  free(path);
   return 0;
 }
