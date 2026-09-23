@@ -86,10 +86,8 @@ char *find_program(char *progname, Path *path)
 
     if (valid_prog)
     {
-      printf("Program found: %s\n", valid_prog);
       return valid_prog;
     }
-
     current_path += current_path_len + 1;
     traversed += current_path_len + 1;
   }
