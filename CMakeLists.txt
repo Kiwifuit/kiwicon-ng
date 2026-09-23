@@ -13,7 +13,9 @@ add_executable(kiwicon
   src/builtins.c
   src/builtins.h
   src/search.c
-  src/search.h)
+  src/search.h
+  src/path.c
+  src/path.h)
 
 install(TARGETS kiwicon RUNTIME DESTINATION bin)
 
