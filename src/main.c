@@ -34,13 +34,26 @@ Command *process_stdin()
   return cmd;
 }
 
-int process_command(Command *cmd, CallbackManager *cbm)
+int process_command(Command *cmd, CallbackManager *cbm, Path *path)
 {
   Arguments args;
   command_args(cmd, &args);
 
-  int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
-  printf("$? = %d\n", retcode);
+  char *program = find_program(command_cmd(cmd), path);
+  if (program)
+  {
+    printf("Executable found at %s", program);
+  }
+  else
+  {
+    printf("No such executable found: %s", command_cmd(cmd));
+    return -1;
+  }
+
+  free(program);
+
+  // int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
+  // printf("$? = %d\n", retcode);
 }
 
 int builtin_echo(char **argc, size_t argv)
@@ -62,20 +75,19 @@ int main()
   }
 
   load_path_variable(path);
-  printf("Hello world!\nPATH: %s\n", path);
+  printf("Hello world!\n");
 
-  find_program("gcc", path);
-  // CallbackManager *cbm = callback_manager_new();
+  CallbackManager *cbm = callback_manager_new();
 
-  // if (callback_add(cbm, "echo", NULL, builtin_echo))
-  //   perror("callback_add");
+  if (callback_add(cbm, "echo", NULL, builtin_echo))
+    perror("callback_add");
 
-  // Command *cmd = process_stdin();
-  // command_debug(cmd);
-  // process_command(cmd, cbm);
+  Command *cmd = process_stdin();
+  command_debug(cmd);
+  process_command(cmd, cbm, path);
 
-  // command_free(cmd);
-  // callback_manager_free(cbm);
+  command_free(cmd);
+  callback_manager_free(cbm);
 
   free(path->pathbuf);
   free(path);
