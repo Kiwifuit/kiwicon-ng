@@ -2,8 +2,9 @@
 
 #include <stddef.h>
 
-#define ERR_CMDLINE_OK 0
-#define ERR_CMDLINE_NO_BUFFER 1
+#define ERR_CMDLINE_OK (0)
+#define ERR_CMDLINE_NO_BUFFER (1 << 0)
+#define ERR_CMDLINE_STRQUOT (1 << 1)
 
 typedef struct command_s Command;
 

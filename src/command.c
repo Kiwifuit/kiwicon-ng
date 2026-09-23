@@ -62,6 +62,9 @@ command_new(char *commandline)
 
 void command_debug(Command *cmd)
 {
+  if (!cmd)
+    return;
+
   printf("===== COMMANDLINE DATA =====\n");
   if (cmd->buffer)
     printf("Buffer: %s\n", cmd->buffer);
@@ -153,6 +156,11 @@ int command_tokenize(Command *cmd)
       cmd->state.token_start = NULL;
     }
   } while (current_token != NULL);
+
+  if (cmd->state.current_state == STATE_QUOTING)
+  {
+    return ERR_CMDLINE_STRQUOT;
+  }
 
   return ERR_CMDLINE_OK;
 }

@@ -29,6 +29,7 @@ Command *process_stdin()
   {
     printf("command_tokenize: error %x", retcode);
     command_free(cmd);
+    return NULL;
   }
 
   return cmd;
