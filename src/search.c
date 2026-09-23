@@ -50,22 +50,14 @@ void load_path_variable(Path *path)
   path->pathlen = path_len;
 }
 
-// int is_executable(char *progname)
-// {
-//   int is_executable = 0;
-
-//   if (stat(prog_path, stat_data))
-//   {
-//     if (errno != ENOENT)
-//       perror("stat");
-
-//     return NULL;
-//   }
-//   else if (!S_ISREG(stat_data->st_mode))
-//   {
-//     return NULL;
-//   }
-// }
+int is_executable(char *path, struct stat *stat_data)
+{
+  if (!stat(path, stat_data) && stat_data->st_size > 0)
+  {
+    return 1;
+  }
+  return 0;
+}
 
 char *concat_path(char *dir, char *prog, const char *ext)
 {
@@ -112,8 +104,8 @@ char *concat_path(char *dir, char *prog, const char *ext)
   return prog_path;
 }
 
-// char *is_valid_program(char *dir, char *prog, struct stat *stat_data)
-char *is_valid_program(char *dir, char *prog)
+char *is_valid_program(char *dir, char *prog, struct stat *stat_data)
+// char *is_valid_program(char *dir, char *prog)
 {
   if (!dir || !prog || !(*dir) || !(*prog))
   {
@@ -124,7 +116,10 @@ char *is_valid_program(char *dir, char *prog)
   for (int i = 0; i < LEN(EXECUTABLE_EXTENSIONS); i++)
   {
     prog_path = concat_path(dir, prog, EXECUTABLE_EXTENSIONS[i]);
-    printf("Full path: %s\n", prog_path);
+    if (is_executable(prog_path, stat_data))
+    {
+      return prog_path;
+    }
     free(prog_path);
   }
 
@@ -135,13 +130,18 @@ char *find_program(char *progname, Path *path)
 {
   char *current_path = path->pathbuf;
   size_t traversed = 0;
+  struct stat stat_data;
 
   while (traversed < path->pathlen)
   {
     size_t current_path_len = strlen(current_path);
-    printf("Current Path: %s\n", current_path);
+    char *valid_prog = is_valid_program(current_path, progname, &stat_data);
 
-    is_valid_program(current_path, progname);
+    if (valid_prog)
+    {
+      printf("Program found: %s\n", valid_prog);
+      return valid_prog;
+    }
 
     current_path += current_path_len + 1;
     traversed += current_path_len + 1;
