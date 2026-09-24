@@ -6,6 +6,8 @@
 #include "builtins.h"
 #include "search.h"
 
+#include "builtins_impl.h"
+
 Command *process_stdin()
 {
   char *cmdline = get_command("Input command");
@@ -47,23 +49,15 @@ int process_command(Command *cmd, CallbackManager *cbm, Path *path)
   }
   else
   {
-    printf("No such executable found: %s", command_cmd(cmd));
-    return -1;
+    int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
+    printf("$? = %d\n", retcode);
+
+    // printf("No such executable found: %s", command_cmd(cmd));
+
+    return retcode;
   }
 
   free(program);
-
-  // int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
-  // printf("$? = %d\n", retcode);
-}
-
-int builtin_echo(char **argc, size_t argv)
-{
-  if (argv < 1)
-    return 1;
-
-  printf("Echo: %s\n", argc[0]);
-  return 0;
 }
 
 int main()
@@ -79,9 +73,7 @@ int main()
   printf("Hello world!\n");
 
   CallbackManager *cbm = callback_manager_new();
-
-  if (callback_add(cbm, "echo", NULL, builtin_echo))
-    perror("callback_add");
+  register_builtins(cbm);
 
   Command *cmd = process_stdin();
   command_debug(cmd);
