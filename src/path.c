@@ -27,32 +27,27 @@ char *concat_path(char *dir, char *prog, const char *ext)
     ext_len = strlen(ext);
   }
 
-  size_t total_size = dir_len + prog_len + ext_len + 1;
+  size_t total_size = dir_len + prog_len + ext_len + 2;
   if (dir[dir_len - 1] != '\\')
   {
     total_size++;
   }
 
   char *prog_path = calloc(total_size, sizeof(char));
+  char *pos = prog_path;
 
   if (!prog_path)
   {
     return NULL;
   }
 
+  pos += snprintf(pos, total_size - (pos - prog_path), "%s", dir);
   if (dir[dir_len - 1] != '\\')
   {
-    snprintf(prog_path, total_size, "%s\\%s", dir, prog);
+    pos += snprintf(pos, total_size - (pos - prog_path), "\\");
   }
-  else
-  {
-    snprintf(prog_path, total_size, "%s%s", dir, prog);
-  }
-
-  if (ext)
-  {
-    snprintf(prog_path, total_size, "%s%s", prog_path, ext);
-  }
+  pos += snprintf(pos, total_size - (pos - prog_path), "%s", prog);
+  pos += snprintf(pos, total_size - (pos - prog_path), "%s", ext);
 
   return prog_path;
 }

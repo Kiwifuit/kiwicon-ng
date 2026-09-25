@@ -28,8 +28,8 @@ CallbackManager *callback_manager_new()
   cbm->callbacks = vec_new(sizeof(struct callback_s));
   if (!cbm->callbacks)
   {
-    free(cbm);
     cbm->callbacks = NULL;
+    free(cbm);
   }
 
   return cbm;
@@ -41,7 +41,7 @@ void callback_manager_free(CallbackManager *cbm)
   if (!callbacks)
     return;
 
-  for (int i = 0; i < vec_len(cbm->callbacks); i++)
+  for (size_t i = 0; i < vec_len(cbm->callbacks); i++)
   {
     struct callback_s *current_callback = callbacks[i];
 
@@ -79,7 +79,7 @@ int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, Sh
 
   struct callback_s *found_callback;
 
-  for (int i = 0; i < vec_len(cbm->callbacks); i++)
+  for (size_t i = 0; i < vec_len(cbm->callbacks); i++)
   {
     struct callback_s *current_callback = callbacks[i];
 

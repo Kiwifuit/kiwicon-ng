@@ -52,7 +52,6 @@ void load_path_variable(Path *path)
 }
 
 char *is_valid_program(char *dir, char *prog, struct stat *stat_data)
-// char *is_valid_program(char *dir, char *prog)
 {
   if (!dir || !prog || !(*dir) || !(*prog))
   {
@@ -60,7 +59,7 @@ char *is_valid_program(char *dir, char *prog, struct stat *stat_data)
   }
 
   char *prog_path;
-  for (int i = 0; i < LEN(EXECUTABLE_EXTENSIONS); i++)
+  for (size_t i = 0; i < LEN(EXECUTABLE_EXTENSIONS); i++)
   {
     prog_path = concat_path(dir, prog, EXECUTABLE_EXTENSIONS[i]);
     if (is_executable(prog_path, stat_data))

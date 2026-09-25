@@ -74,7 +74,7 @@ void command_debug(Command *cmd)
   {
     char **args = vec_data(cmd->argv);
     printf("Arguments:\n");
-    for (int i = 0; i < vec_len(cmd->argv); i++)
+    for (size_t i = 0; i < vec_len(cmd->argv); i++)
     {
       printf("\t%d: %s\n", i, args[i]);
     }
