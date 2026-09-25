@@ -1,6 +1,28 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(kiwicon VERSION 0.0.1 LANGUAGES C HOMEPAGE_URL "https://github.com/Kiwifuit/KiwiCon-ng")
+add_compile_options(
+  -Wall
+  -Wextra
+  -Wpedantic
+  -Wconversion
+  -Wsign-conversion
+  -Wstrict-prototypes
+  -Wmissing-declarations
+  -Wwrite-strings
+  -Wbad-function-cast
+  -Warray-bounds=2
+  -Wstrict-aliasing
+  -Wlogical-op
+  -Wduplicated-cond
+  -Wduplicated-branches
+  -Wnull-dereference
+  -Wshadow
+  -Wundef
+  -Wunused
+  -Wincompatible-pointer-types
+  -Werror=implicit-function-declaration
+)
 
 add_executable(kiwicon
   src/main.c
