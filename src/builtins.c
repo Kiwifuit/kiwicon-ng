@@ -71,7 +71,7 @@ int callback_add(CallbackManager *cbm, char *restrict name, const char *restrict
   return ERR_BUILTIN_OK;
 }
 
-int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc)
+int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, ShellContext *state)
 {
   struct callback_s **callbacks = vec_data(cbm->callbacks);
   if (!callbacks)
@@ -92,7 +92,7 @@ int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc)
   if (!found_callback)
     return ERR_BUILTIN_NOTFOUND;
 
-  int result = found_callback->func(argv, argc);
+  int result = found_callback->func(argv, argc, state);
   if (!result)
     return ERR_BUILTIN_OK;
   else

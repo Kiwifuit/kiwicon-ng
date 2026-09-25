@@ -8,8 +8,14 @@
 
 #include <stddef.h>
 
-typedef int (*BuiltinEntrypoint)(char **, size_t);
 typedef struct callback_mgr_s CallbackManager;
+typedef struct
+{
+  CallbackManager *cbm;
+  char *current_working_dir;
+} ShellContext;
+
+typedef int (*BuiltinEntrypoint)(char **, size_t, ShellContext *);
 
 /*
 Creates a callback manager
@@ -33,4 +39,4 @@ Finds the callback associated to `name`
 and executes it with the contents of
 `argc` and `argv`
 */
-int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc);
+int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, ShellContext *state);
