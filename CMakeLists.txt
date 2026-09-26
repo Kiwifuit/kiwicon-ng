@@ -22,23 +22,7 @@ add_compile_options(
   -Werror=implicit-function-declaration
 )
 
-add_executable(kiwicon
-  src/main.c
-  src/line.c
-  src/line.h
-  src/command.c
-  src/command.h
-  src/buffer.c
-  src/buffer.h
-  src/builtins.c
-  src/builtins.h
-  src/search.c
-  src/search.h
-  src/path.c
-  src/path.h
-  src/builtins_impl.c)
-
-install(TARGETS kiwicon RUNTIME DESTINATION bin)
+add_subdirectory(src/shell)
 
 set(CPACK_PACKAGE_NAME "Kiwicon")
 set(CPACK_PACKAGE_VENDOR "Kiwifruit")
