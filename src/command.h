@@ -14,44 +14,35 @@ typedef struct
   char **argv;
 } Arguments;
 
-/*
-Constructs a new command object, owning the
-commandline buffer. Returns NULL when
-`commandline` is NULL, or when malloc(3)
-fails to allocate memory for the commandline
-*/
+/// @brief Constructs a new command object
+/// @param commandline The heap-allocated commandline buffer to own
+/// @return A pointer to a Command, else NULL if no commandline is provided or if malloc(3) fails to allocate
 Command *command_new(char *commandline);
 
-/*
-Frees the resources inside a command
-*/
+/// @brief Frees all resources the Command owns. Note that this function frees the internal buffer passed on from `command_new`
+/// @param cmd Pointer to command object
 void command_free(Command *cmd);
 
-/*
-Returns the commandline passed inside of
-`cmd`
-*/
-char *command_cmdline(Command *cmd);
+/// @brief Returns the commandline passed from `command_new`
+/// @param cmd Commandline object
+/// @return Read-only pointer to the raw commandline buffer
+const char *command_cmdline(const Command *const cmd);
 
-/*
-Returns argument data about cmd and
-puts it into args
-*/
-void command_args(Command *cmd, Arguments *args);
+/// @brief Puts the command line information (`argc` and `argv`) to `Args`
+/// @param cmd Commandline object to read from
+/// @param args Arguments object to put information into. `NULL` will be set when `command_tokenize` hasn't processed the `cmd`
+void command_args(const Command *const cmd, Arguments *args);
 
-/*
-Returns the command to execute
-*/
-char *command_cmd(Command *cmd);
+/// @brief Returns the binary to execute
+/// @param cmd Commandline object to read from
+/// @return Read-only reference to the executable in `cmd`
+const char *command_cmd(const Command *const cmd);
 
-/*
-Displays debug information about
-cmd to the terminal
-*/
-void command_debug(Command *cmd);
+/// @brief A debug function meant to show data about the passed Command
+/// @param cmd Command Object
+void command_debug(const Command *const cmd);
 
-/*
-Tokenizes the buffer inside of
-`cmd`
-*/
-int command_tokenize(Command *cmd);
+/// @brief Tokenizes the internal buffer of `cmd` for command execution. Call this function before calling `command_args`
+/// @param cmd Commandline object to read from
+/// @return `ERR_CMDLINE_OK`
+int command_tokenize(Command *const cmd);

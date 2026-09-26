@@ -11,26 +11,26 @@
 typedef int (*BuiltinEntrypoint)(char **, size_t);
 typedef struct callback_mgr_s CallbackManager;
 
-/*
-Creates a callback manager
-*/
+/// @brief Creates a callback manager. Must be freed with `callback_manager_free`
+/// @return Heap allocated callback manager
 CallbackManager *callback_manager_new();
 
-/*
-Frees the resources associated with the callback
-manager `cbm`
-*/
+/// @brief Frees the callback manager
+/// @param cbm Pointer to the callback manager
 void callback_manager_free(CallbackManager *cbm);
 
-/*
-Adds a callback to the callback manager and
-associates it to `name`
-*/
+/// @brief Adds a particular function as a "shell builtin"
+/// @param cbm Callback manager
+/// @param name Friendly name of the function. Shell users enter this
+/// @param help_doc Short help string about the builtin
+/// @param entrypoint Function to call
+/// @return `ERR_BUILTIN_OK` if the callback was added successfully
 int callback_add(CallbackManager *cbm, char *restrict name, const char *restrict help_doc, BuiltinEntrypoint entrypoint);
 
-/*
-Finds the callback associated to `name`
-and executes it with the contents of
-`argc` and `argv`
-*/
+/// @brief Searches for a callback in the manager and runs it with the given arguments
+/// @param cbm Callback manager
+/// @param name The friendly name of the builtin
+/// @param argv Arguments to pass
+/// @param argc Number of arguments passed
+/// @return `ERR_BUILTIN_OK` if the callback was called successfully
 int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc);

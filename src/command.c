@@ -60,7 +60,7 @@ command_new(char *commandline)
   return cmd;
 }
 
-void command_debug(Command *cmd)
+void command_debug(const Command *const cmd)
 {
   if (!cmd)
     return;
@@ -89,17 +89,17 @@ void command_free(Command *cmd)
   cmd = NULL;
 }
 
-char *command_cmdline(Command *cmd)
+const char *command_cmdline(const Command *const cmd)
 {
   return cmd->buffer;
 }
 
-char *command_cmd(Command *cmd)
+const char *command_cmd(const Command *const cmd)
 {
   return cmd->cmd;
 }
 
-void command_args(Command *cmd, Arguments *args)
+void command_args(const Command *const cmd, Arguments *args)
 {
   if (!args)
   {
@@ -111,7 +111,7 @@ void command_args(Command *cmd, Arguments *args)
       .argc = vec_len(cmd->argv)};
 }
 
-int command_tokenize(Command *cmd)
+int command_tokenize(Command *const cmd)
 {
   if (!cmd || !cmd->buffer)
   {
