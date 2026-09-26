@@ -9,38 +9,26 @@
 
 typedef struct vector_s Vec;
 
-/*
-Initializes a vector capable of storing
-a couple `item_size`.
-
-The default capacity depends on the
-`KIWICON_VECTOR_DEFAULT_CAPACITY` parameter
-*/
+/// @brief Initializes a vector capable of storing items. The default capacity is determined by defining `KIWICON_VECTOR_DEFAULT_CAPACITY`
+/// @param item_size Size of each items
+/// @return `Vec` which is capable of storing data.
 Vec *vec_new(size_t item_size);
 
-/*
-Frees the resources created by this Vec.
-
-NOTE: It is the responsibility of the
-callee to free the data inside the Vec
-before this function is called. See
-`vec_data` and `vec_len` for how the
-buffer and its length is to be retrieved
-*/
+/// @brief Frees the vec. Note that the caller is responsible for freeing the data inside the Vec if required.
+/// @param vec Pointer to the vec.
 void vec_free(Vec *vec);
 
-/*
-Adds an item onto the vector to the
-back of the buffer.
-*/
+/// @brief Adds an item to the end of the Vec
+/// @param vec Vector to add the item
+/// @param item Item to add
 void vec_add(Vec *vec, void *item);
 
-/*
-Fetches the data inside the Vec
-*/
-void *vec_data(Vec *vec);
+/// @brief Returns the internal buffer inside of the vec
+/// @param vec
+/// @return Pointer to `vec`'s internal buffer
+const void *vec_data(Vec *vec);
 
-/*
-Fetches the length of the Vec
-*/
+/// @brief Fetches the length of `vec`
+/// @param vec the Vector in question
+/// @return The length of `vec` as a `size_t`
 size_t vec_len(Vec *vec);

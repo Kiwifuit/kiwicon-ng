@@ -58,7 +58,7 @@ void vec_add(Vec *vec, void *item)
   }
 }
 
-void *vec_data(Vec *vec)
+const void *vec_data(Vec *vec)
 {
   return vec->items;
 }
