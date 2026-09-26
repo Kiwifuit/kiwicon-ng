@@ -77,7 +77,7 @@ int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, Sh
   if (!callbacks)
     return ERR_BUILTIN_NULLPTR;
 
-  struct callback_s *found_callback;
+  struct callback_s *found_callback = NULL;
 
   for (size_t i = 0; i < vec_len(cbm->callbacks); i++)
   {
