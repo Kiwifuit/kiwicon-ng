@@ -98,3 +98,19 @@ int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, Sh
   else
     return ERR_BUILTIN_ERR;
 }
+
+Callback *callback_get_all(CallbackManager *cbm, size_t *cbn)
+{
+  *cbn = vec_len(cbm->callbacks);
+  return (Callback *)vec_data(cbm->callbacks);
+}
+
+char *callback_name(Callback *cb)
+{
+  return cb->name;
+}
+
+char *callback_help(Callback *cb)
+{
+  return cb->help;
+}

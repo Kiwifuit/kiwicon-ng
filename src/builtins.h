@@ -9,6 +9,8 @@
 #include <stddef.h>
 
 typedef struct callback_mgr_s CallbackManager;
+typedef struct callback_s Callback;
+
 typedef struct
 {
   CallbackManager *cbm;
@@ -40,3 +42,19 @@ and executes it with the contents of
 `argc` and `argv`
 */
 int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, ShellContext *state);
+
+/// @brief Fetches all the callbacks in the manager
+/// @param cbm Pointer to callback manager
+/// @param cbn Number of callbacks registered
+/// @return A list of all callbacks
+Callback **callback_get_all(CallbackManager *cbm, size_t *cbn);
+
+/// @brief Fetches the name of the callback
+/// @param cb Callback pointer
+/// @return Pointer to callback friendly name
+char *callback_name(Callback *cb);
+
+/// @brief Fetches the help doc of the callback
+/// @param cb Callback pointer
+/// @return Pointer to help doc
+char *callback_help(Callback *cb);

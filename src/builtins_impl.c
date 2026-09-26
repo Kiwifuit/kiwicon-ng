@@ -3,8 +3,18 @@
 #include "builtins.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-int builtin_echo(char **argv, size_t argc)
+Callback *find_prog_help(char *prog, Callback **cbs, size_t cb_count)
+{
+  for (size_t i = 0; i < cb_count; i++)
+  {
+    if (!strcmp(prog, callback_name(cbs[i])))
+      return cbs[i];
+  }
+}
+
+int builtin_echo(char **argv, size_t argc, ShellContext *ctx)
 {
   if (argc < 1)
     return 1;
@@ -13,10 +23,18 @@ int builtin_echo(char **argv, size_t argc)
   return 0;
 }
 
-int builtin_exit(char **argv, size_t argc)
+int builtin_exit(char **argv, size_t argc, ShellContext *ctx)
 {
   exit(0);
   return 0;
+}
+
+int builtin_help(char **argv, size_t argc, ShellContext *ctx)
+{
+  if (argc == 1)
+  {
+    char *prog = argv[0];
+  }
 }
 
 void register_builtins(CallbackManager *cbm)

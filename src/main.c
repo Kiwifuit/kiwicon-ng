@@ -37,7 +37,7 @@ Command *process_stdin()
   return cmd;
 }
 
-int process_command(Command *cmd, CallbackManager *cbm, Path *path)
+int process_command(Command *cmd, CallbackManager *cbm, Path *path, ShellContext *ctx)
 {
   Arguments args;
   command_args(cmd, &args);
@@ -49,7 +49,7 @@ int process_command(Command *cmd, CallbackManager *cbm, Path *path)
   }
   else
   {
-    int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc);
+    int retcode = callback_run(cbm, command_cmd(cmd), args.argv, args.argc, ctx);
     printf("$? = %d\n", retcode);
 
     // printf("No such executable found: %s", command_cmd(cmd));
@@ -73,11 +73,15 @@ int main()
   printf("Hello world!\n");
 
   CallbackManager *cbm = callback_manager_new();
+  ShellContext ctx = (ShellContext){
+      .cbm = cbm,
+      .current_working_dir = NULL};
+
   register_builtins(cbm);
 
   Command *cmd = process_stdin();
   command_debug(cmd);
-  process_command(cmd, cbm, path);
+  process_command(cmd, cbm, path, &ctx);
 
   command_free(cmd);
   callback_manager_free(cbm);
