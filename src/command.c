@@ -76,7 +76,7 @@ void command_debug(const Command *const cmd)
     printf("Arguments:\n");
     for (size_t i = 0; i < vec_len(cmd->argv); i++)
     {
-      printf("\t%d: %s\n", i, args[i]);
+      printf("\t%ld: %s\n", i, args[i]);
     }
   }
   printf("===== COMMANDLINE DATA =====\n");

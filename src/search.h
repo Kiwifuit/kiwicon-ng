@@ -16,4 +16,4 @@ void load_path_variable(Path *path);
 /// @param progname Name of the program
 /// @param path Buffer containing data from `load_path_variable`
 /// @return Absolute path to executable, or NULL if not found
-char *find_program(char *progname, Path *path);
+char *find_program(const char *progname, Path *path);

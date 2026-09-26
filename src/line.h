@@ -7,7 +7,7 @@
 /// @brief Fetches characters from stdin
 /// @param prompt The prompt to display
 /// @return A string with a length of at most `KIWICON_LINE_WIDTH` characters or `NULL` if failure
-char *get_command(char *prompt);
+char *get_command(const char *prompt);
 
 /// @brief Strips the newline from the string
 /// @param input Input string

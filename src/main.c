@@ -8,7 +8,7 @@
 
 #include "builtins_impl.h"
 
-Command *process_stdin()
+Command *process_stdin(void)
 {
   char *cmdline = get_command("Input command");
   if (!cmdline)
@@ -46,6 +46,9 @@ int process_command(Command *cmd, CallbackManager *cbm, Path *path, ShellContext
   if (program)
   {
     printf("Executable found at %s", program);
+
+    free(program);
+    return 0;
   }
   else
   {
@@ -56,11 +59,9 @@ int process_command(Command *cmd, CallbackManager *cbm, Path *path, ShellContext
 
     return retcode;
   }
-
-  free(program);
 }
 
-int main()
+int main(void)
 {
   Path *path = malloc(sizeof(Path));
   if (!path)
@@ -80,8 +81,11 @@ int main()
   register_builtins(cbm);
 
   Command *cmd = process_stdin();
-  command_debug(cmd);
-  process_command(cmd, cbm, path, &ctx);
+  if (cmd)
+  {
+    command_debug(cmd);
+    process_command(cmd, cbm, path, &ctx);
+  }
 
   command_free(cmd);
   callback_manager_free(cbm);

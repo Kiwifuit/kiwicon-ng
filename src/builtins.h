@@ -21,7 +21,7 @@ typedef int (*BuiltinEntrypoint)(char **, size_t, ShellContext *);
 
 /// @brief Creates a callback manager. Must be freed with `callback_manager_free`
 /// @return Heap allocated callback manager
-CallbackManager *callback_manager_new();
+CallbackManager *callback_manager_new(void);
 
 /// @brief Frees the callback manager
 /// @param cbm Pointer to the callback manager

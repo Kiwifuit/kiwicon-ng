@@ -12,6 +12,8 @@ Callback *find_prog_help(char *prog, Callback **cbs, size_t cb_count)
     if (!strcmp(prog, callback_name(cbs[i])))
       return cbs[i];
   }
+
+  return NULL;
 }
 
 int builtin_echo(char **argv, size_t argc, ShellContext *ctx)

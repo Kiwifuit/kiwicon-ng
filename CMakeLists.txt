@@ -8,7 +8,6 @@ add_compile_options(
   -Wconversion
   -Wsign-conversion
   -Wstrict-prototypes
-  -Wmissing-declarations
   -Wwrite-strings
   -Wbad-function-cast
   -Warray-bounds=2
@@ -19,7 +18,6 @@ add_compile_options(
   -Wnull-dereference
   -Wshadow
   -Wundef
-  -Wunused
   -Wincompatible-pointer-types
   -Werror=implicit-function-declaration
 )

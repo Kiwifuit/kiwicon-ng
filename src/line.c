@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *get_command(char *prompt)
+char *get_command(const char *prompt)
 {
   char *buffer = calloc(KIWICON_LINE_WIDTH, sizeof(char));
   if (!buffer)

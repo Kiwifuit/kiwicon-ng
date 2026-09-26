@@ -17,7 +17,7 @@ struct callback_s
   BuiltinEntrypoint func;
 };
 
-CallbackManager *callback_manager_new()
+CallbackManager *callback_manager_new(void)
 {
   CallbackManager *cbm = malloc(sizeof(CallbackManager));
   if (!cbm)
@@ -99,10 +99,10 @@ int callback_run(CallbackManager *cbm, char *name, char *argv[], size_t argc, Sh
     return ERR_BUILTIN_ERR;
 }
 
-Callback *callback_get_all(CallbackManager *cbm, size_t *cbn)
+Callback **callback_get_all(CallbackManager *cbm, size_t *cbn)
 {
   *cbn = vec_len(cbm->callbacks);
-  return (Callback *)vec_data(cbm->callbacks);
+  return (Callback **)vec_data(cbm->callbacks);
 }
 
 char *callback_name(Callback *cb)

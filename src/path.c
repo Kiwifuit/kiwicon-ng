@@ -1,5 +1,12 @@
 #include "path.h"
 
+#ifdef _WIN32
+#define DIRSEP '\\'
+#else
+#define DIRSEP '/'
+#endif
+
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,7 +35,7 @@ char *concat_path(char *dir, char *prog, const char *ext)
   }
 
   size_t total_size = dir_len + prog_len + ext_len + 2;
-  if (dir[dir_len - 1] != '\\')
+  if (dir[dir_len - 1] != DIRSEP)
   {
     total_size++;
   }
@@ -41,13 +48,13 @@ char *concat_path(char *dir, char *prog, const char *ext)
     return NULL;
   }
 
-  pos += snprintf(pos, total_size - (pos - prog_path), "%s", dir);
-  if (dir[dir_len - 1] != '\\')
+  pos += snprintf(pos, total_size - (size_t)(pos - prog_path), "%s", dir);
+  if (dir[dir_len - 1] != DIRSEP)
   {
-    pos += snprintf(pos, total_size - (pos - prog_path), "\\");
+    pos += snprintf(pos, total_size - (size_t)(pos - prog_path), "%c", DIRSEP);
   }
-  pos += snprintf(pos, total_size - (pos - prog_path), "%s", prog);
-  pos += snprintf(pos, total_size - (pos - prog_path), "%s", ext);
+  pos += snprintf(pos, total_size - (size_t)(pos - prog_path), "%s", prog);
+  pos += snprintf(pos, total_size - (size_t)(pos - prog_path), "%s", ext);
 
   return prog_path;
 }
