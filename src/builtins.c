@@ -25,7 +25,7 @@ CallbackManager *callback_manager_new()
     return NULL;
   }
 
-  cbm->callbacks = vec_new(sizeof(struct callback_s));
+  cbm->callbacks = vec_new(sizeof(struct callback_s *));
   if (!cbm->callbacks)
   {
     cbm->callbacks = NULL;
