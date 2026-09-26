@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <kiwicon/test.h>
+
 #include "line.h"
 #include "command.h"
 #include "builtins.h"
@@ -71,7 +73,9 @@ int main(void)
   }
 
   load_path_variable(path);
-  printf("Hello world!\n");
+  greet();
+
+  // printf("Hello world!\n");
 
   CallbackManager *cbm = callback_manager_new();
   ShellContext ctx = (ShellContext){

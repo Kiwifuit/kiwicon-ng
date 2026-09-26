@@ -23,6 +23,7 @@ add_compile_options(
 )
 
 add_subdirectory(src/shell)
+add_subdirectory(src/extensions)
 
 set(CPACK_PACKAGE_NAME "Kiwicon")
 set(CPACK_PACKAGE_VENDOR "Kiwifruit")

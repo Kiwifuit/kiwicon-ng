@@ -15,5 +15,7 @@ add_executable(kiwicon
   builtins_impl.c)
 
 install(TARGETS kiwicon RUNTIME DESTINATION bin COMPONENT shell)
+target_link_libraries(kiwicon PRIVATE kc)
+
 set(CPACK_COMPONENT_SHELL_DISPLAY_NAME "Kiwicon")
 set(CPACK_COMPONENT_SHELL_DESCRIPTION "A simple console project")
