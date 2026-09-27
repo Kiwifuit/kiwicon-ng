@@ -57,15 +57,18 @@ if(DPKG_DEB_EXECUTABLE)
   set(CPACK_DEBIAN_PACKAGE_SECTION "shells")
 
   set(CPACK_DEBIAN_SHELL_PACKAGE_NAME "kiwicon")
+  set(CPACK_DEBIAN_SHELL_FILE_NAME "kiwicon-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}.deb")
   set(CPACK_COMPONENT_SHELL_DESCRIPTION "The main Kiwicon command-line executable")
 
   set(CPACK_DEBIAN_LIBRARY_PACKAGE_NAME "libkiwicon")
+  set(CPACK_DEBIAN_LIBRARY_FILE_NAME "libkiwicon-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}.deb")
   set(CPACK_COMPONENT_LIBRARY_DESCRIPTION "Shared runtime dynamic library required by Kiwicon")
 
-  set(CPACK_DEBIAN_LIBRARY_PACKAGE_NAME "libkiwicon-dev")
+  set(CPACK_DEBIAN_HEADERS_PACKAGE_NAME "libkiwicon-dev")
+  set(CPACK_DEBIAN_HEADERS_FILE_NAME "libkiwicon-dev-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}.deb")
   set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C header files for developing extensions")
 
-  set(CPACK_DEBIAN_SHELL_PACKAGE_DEPENDS "libkc (= ${CPACK_PACKAGE_VERSION})")
+  set(CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS ON)
   set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 endif()
 
@@ -91,17 +94,11 @@ if(NSIS_EXECUTABLE)
   set(CPACK_NSIS_DISPLAY_NAME "Kiwicon")
   set(CPACK_NSIS_HELP_LINK "https://github.com/Kiwifuit/KiwiCon-ng")
 
+  # Modify the shell component's display name and description for NSIS builds
   set(CPACK_COMPONENT_SHELL_DISPLAY_NAME "Kiwicon Shell")
   set(CPACK_COMPONENT_SHELL_DESCRIPTION "The main Kiwicon command-line executable")
 
-  set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "Core Library (kc)")
-  set(CPACK_COMPONENT_LIBRARY_DESCRIPTION "Shared runtime dynamic library required by Kiwicon")
-
-  set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "Development Headers")
-  set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C header files for developing extensions")
-
   set(CPACK_COMPONENT_LIBRARY_REQUIRED ON)
-  set(CPACK_COMPONENT_SHELL_DEPENDS library)
 endif()
 
 include(CPack)
